@@ -127,6 +127,9 @@ export default function Header() {
                 <LinkContainer to="/contact">
                   <NavDropdown.Item>Contact Us</NavDropdown.Item>
                 </LinkContainer>
+                <LinkContainer to="/about">
+                  <NavDropdown.Item>About Us</NavDropdown.Item>
+                </LinkContainer>
                 <LinkContainer to="/category/all-girls">
                   <NavDropdown.Item>All Girls Trips</NavDropdown.Item>
                 </LinkContainer>
