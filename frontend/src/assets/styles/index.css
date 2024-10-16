@@ -2049,3 +2049,33 @@
     padding: 15px;
   }
 }
+
+
+.custom-font-style {
+  font-size: 2.5rem !important;
+  font-weight: bold !important;
+}
+
+.marquee-container {
+  display: flex;
+  gap: 20px; /* Adjusted gap for space between images */
+  
+  height: 25% !important; /* Reduced height to 25% */
+}
+
+.marquee-item {
+  flex-grow: 1;
+  width: 300px; /* Base width */
+  height: auto;
+}
+
+.marquee-item:nth-child(odd) {
+  width: 400px; /* Increased width for every other image */
+}
+
+.marquee-image {
+  width: 100%;
+  height: 100%; /* Full height of the container */
+  object-fit: cover;
+  border-radius: 10px; /* Optional styling */
+}

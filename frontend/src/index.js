@@ -42,6 +42,7 @@ import ContactUsScreen from "./screens/ContactUsScreen";
 import ActivityScreen from "./screens/ActivityScreen";
 import ThemeScreen from "./screens/ThemeScreen";
 import AboutUsScreen from "./screens/AboutUsScreen";
+import CareerWithUs from "./screens/CareerWithUs";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -64,7 +65,7 @@ const router = createBrowserRouter(
       <Route path="/activities/bungee-jumping" element={<ActivityScreen />} />
       <Route path="/themes/ladakh-tour-package" element={<ThemeScreen />} />
       <Route path="/contact" element={<ContactUsScreen />} />
-      <Route path="/career" element={<ContactUsScreen />} />
+      <Route path="/career" element={<CareerWithUs />} />
       <Route path="/about" element={<AboutUsScreen />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />

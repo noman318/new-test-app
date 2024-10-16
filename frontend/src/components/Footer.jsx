@@ -88,7 +88,7 @@ export default function Footer() {
                   <a href="/">Our Blogs</a>
                 </li>
                 <li>
-                  <a href="/">Career With US</a>
+                  <a href="/career">Career With US</a>
                 </li>
                 <li>
                   <a href="/">Payment Policy</a>
