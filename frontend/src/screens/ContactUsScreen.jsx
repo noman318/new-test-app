@@ -16,7 +16,7 @@ const ContactUsScreen = () => {
     <>
       <div
         style={{
-          marginTop: "3.3rem",
+          marginTop: "5.5rem",
           width: "100% !important",
           minHeight: "75vh",
         }}
