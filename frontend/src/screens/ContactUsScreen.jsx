@@ -105,7 +105,7 @@ const ContactUsScreen = () => {
             </div>
           </Col>
           <Col lg={4} className="d-flex justify-content-start">
-            <div className="w-50 border rounded">
+            <div className="w-75 border rounded">
               <img
                 src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0"
                 alt=""
