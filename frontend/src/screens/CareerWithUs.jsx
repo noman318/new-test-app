@@ -5,10 +5,22 @@ import Marquee from "react-fast-marquee";
 
 const CareerWithUs = () => {
   const images = [
-    { src: "https://via.placeholder.com/300x400", width: 30 },
-    { src: "https://via.placeholder.com/300x400", width: 15 },
-    { src: "https://via.placeholder.com/300x400", width: 35 },
-    { src: "https://via.placeholder.com/300x400", width: 15 },
+    {
+      src: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      width: 30,
+    },
+    {
+      src: "https://images.unsplash.com/photo-1504598318550-17eba1008a68?q=80&w=1886&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      width: 15,
+    },
+    {
+      src: "https://images.unsplash.com/photo-1707343848552-893e05dba6ac?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      width: 35,
+    },
+    {
+      src: "https://images.unsplash.com/photo-1504598318550-17eba1008a68?q=80&w=1886&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      width: 15,
+    },
     // Add more images as needed, alternating widths
   ];
 

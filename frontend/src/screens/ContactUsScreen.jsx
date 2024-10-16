@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { Carousel, Col, Container, Row } from "react-bootstrap";
 import { ContactForm } from "../components/ContactForm";
@@ -9,7 +10,6 @@ const ContactUsScreen = () => {
     { src: "https://via.placeholder.com/300x400", width: 15 },
     { src: "https://via.placeholder.com/300x400", width: 35 },
     { src: "https://via.placeholder.com/300x400", width: 15 },
-    // Add more images as needed, alternating widths
   ];
 
   return (
