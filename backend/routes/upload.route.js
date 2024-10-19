@@ -9,11 +9,9 @@ const storage = multer.diskStorage({
   destination(req, file, cb) {
     const folderName = req.body.category;
     const dir = path.join("uploads", folderName);
-
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
-
     cb(null, dir);
   },
   filename(req, file, cb) {
@@ -48,7 +46,6 @@ router.post("/", (req, res) => {
       if (err) {
         return res.status(400).send({ message: err.message });
       }
-
       res.status(200).send({
         message: "Image uploaded successfully",
         image: `/${req.file.path}`,
@@ -59,9 +56,8 @@ router.post("/", (req, res) => {
       if (err) {
         return res.status(400).send({ message: err.message });
       }
-
       const filePaths = req.files.map((file) => `/${file.path}`);
-
+      console.log('filePaths :>> ', filePaths);
       res.status(200).send({
         message: "Images uploaded successfully",
         images: filePaths,
