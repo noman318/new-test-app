@@ -56,7 +56,7 @@ const router = createBrowserRouter(
         path="/search/:keyword/page/:pageNumber"
         element={<HomeScreen />}
       />
-      <Route path="/products/add" element={<AddProductScreen />} />
+      <Route path="/package/add" element={<AddProductScreen />} />
       <Route path="/product/:id" element={<ProductScreen />} />
       <Route path="/order/:id" element={<OrderScreen />} />
       <Route path="/cart" element={<CartScreen />} />

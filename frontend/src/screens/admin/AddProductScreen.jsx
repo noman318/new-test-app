@@ -6,13 +6,16 @@ const AddProductScreen = () => {
     title: "",
     price: "",
     category: "",
-    pickup_drop: "",
+    pickup: "",
+    drop: "",
     duration: "",
-    descriptions: [""],
+    descriptions: "",
     inclusions: [""],
     itinerary: [{ title: "", list: "", note: "" }],
     image: null,
   });
+
+  console.log("formData :>> ", formData);
 
   const [errors, setErrors] = useState({});
   const [showAlert, setShowAlert] = useState(false);
@@ -27,8 +30,8 @@ const AddProductScreen = () => {
       newErrors.price = "Price must be a positive number.";
     }
     if (!formData.category) newErrors.category = "Category is required.";
-    if (!formData.pickup_drop)
-      newErrors.pickup_drop = "Pickup/Drop is required.";
+    if (!formData.drop) newErrors.drop = "Drop is required.";
+    if (!formData.pickup) newErrors.pickup = "Pickup is required.";
     if (!formData.duration) newErrors.duration = "Duration is required.";
 
     // Image file validation
@@ -42,11 +45,7 @@ const AddProductScreen = () => {
   const handleChange = (e, index, field, section) => {
     const { name, value, files } = e.target;
 
-    if (section === "descriptions") {
-      const updatedDescriptions = [...formData.descriptions];
-      updatedDescriptions[index] = value;
-      setFormData({ ...formData, descriptions: updatedDescriptions });
-    } else if (section === "inclusions") {
+    if (section === "inclusions") {
       const updatedInclusions = [...formData.inclusions];
       updatedInclusions[index] = value;
       setFormData({ ...formData, inclusions: updatedInclusions });
@@ -90,6 +89,8 @@ const AddProductScreen = () => {
       setShowAlert(true);
     }
   };
+
+  const handleSubmitForm = () => {};
 
   return (
     <Form onSubmit={handleSubmit} className="mt-4rem">
@@ -144,20 +145,40 @@ const AddProductScreen = () => {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId="formPickupDrop">
-        <Form.Label>Pickup/Drop</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter pickup/drop location"
-          name="pickup_drop"
-          value={formData.pickup_drop}
-          onChange={handleChange}
-          isInvalid={!!errors.pickup_drop}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.pickup_drop}
-        </Form.Control.Feedback>
-      </Form.Group>
+      <Row>
+        <Col lg={6}>
+          <Form.Group controlId="formPickupDrop">
+            <Form.Label>Pickup</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter pickup location"
+              name="pickup"
+              value={formData.pickup}
+              onChange={handleChange}
+              isInvalid={!!errors.pickup}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.pickup}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Col>
+        <Col lg={6}>
+          <Form.Group controlId="formPickupDrop">
+            <Form.Label>Drop</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter drop location"
+              name="drop"
+              value={formData.drop}
+              onChange={handleChange}
+              isInvalid={!!errors.drop}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.drop}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Col>
+      </Row>
 
       <Form.Group controlId="formDuration">
         <Form.Label>Duration</Form.Label>
@@ -177,20 +198,15 @@ const AddProductScreen = () => {
       {/* Descriptions */}
       <Form.Group controlId="formDescriptions">
         <Form.Label>Descriptions</Form.Label>
-        {formData.descriptions.map((description, index) => (
-          <Form.Control
-            key={index}
-            as="textarea"
-            rows={3}
-            placeholder="Enter description"
-            value={description}
-            onChange={(e) => handleChange(e, index, null, "descriptions")}
-            className="mb-2"
-          />
-        ))}
-        <Button variant="secondary" onClick={() => addField("descriptions")}>
-          Add Description
-        </Button>
+        <Form.Control
+          as="textarea"
+          rows={3}
+          name="descriptions"
+          placeholder="Enter description"
+          value={formData.descriptions}
+          onChange={handleChange}
+          className="mb-2"
+        />
       </Form.Group>
 
       {/* Inclusions */}
@@ -228,7 +244,8 @@ const AddProductScreen = () => {
               </Col>
               <Col lg={6}>
                 <Form.Control
-                  type="text"
+                  as="textarea"
+                  rows={1}
                   placeholder="Enter list"
                   value={item.list}
                   onChange={(e) => handleChange(e, index, "list", "itinerary")}
@@ -266,7 +283,12 @@ const AddProductScreen = () => {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Button variant="primary" type="submit" className="mt-3">
+      <Button
+        variant="primary"
+        type="submit"
+        className="mt-3"
+        onClick={handleSubmitForm}
+      >
         Submit
       </Button>
     </Form>
