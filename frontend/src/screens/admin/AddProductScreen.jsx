@@ -9,11 +9,13 @@ const AddProductScreen = () => {
     pickup: "",
     drop: "",
     duration: "",
-    descriptions: [""],
+    descriptions: "",
     inclusions: [""],
     itinerary: [{ title: "", list: "", note: "" }],
     image: null,
   });
+
+  console.log("formData :>> ", formData);
 
   const [errors, setErrors] = useState({});
   const [showAlert, setShowAlert] = useState(false);
@@ -43,11 +45,7 @@ const AddProductScreen = () => {
   const handleChange = (e, index, field, section) => {
     const { name, value, files } = e.target;
 
-    if (section === "descriptions") {
-      const updatedDescriptions = [...formData.descriptions];
-      updatedDescriptions[index] = value;
-      setFormData({ ...formData, descriptions: updatedDescriptions });
-    } else if (section === "inclusions") {
+    if (section === "inclusions") {
       const updatedInclusions = [...formData.inclusions];
       updatedInclusions[index] = value;
       setFormData({ ...formData, inclusions: updatedInclusions });
@@ -91,6 +89,8 @@ const AddProductScreen = () => {
       setShowAlert(true);
     }
   };
+
+  const handleSubmitForm = () => {};
 
   return (
     <Form onSubmit={handleSubmit} className="mt-4rem">
@@ -198,20 +198,15 @@ const AddProductScreen = () => {
       {/* Descriptions */}
       <Form.Group controlId="formDescriptions">
         <Form.Label>Descriptions</Form.Label>
-        {formData.descriptions.map((description, index) => (
-          <Form.Control
-            key={index}
-            as="textarea"
-            rows={3}
-            placeholder="Enter description"
-            value={description}
-            onChange={(e) => handleChange(e, index, null, "descriptions")}
-            className="mb-2"
-          />
-        ))}
-        <Button variant="secondary" onClick={() => addField("descriptions")}>
-          Add Description
-        </Button>
+        <Form.Control
+          as="textarea"
+          rows={3}
+          name="descriptions"
+          placeholder="Enter description"
+          value={formData.descriptions}
+          onChange={handleChange}
+          className="mb-2"
+        />
       </Form.Group>
 
       {/* Inclusions */}
@@ -288,7 +283,12 @@ const AddProductScreen = () => {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Button variant="primary" type="submit" className="mt-3">
+      <Button
+        variant="primary"
+        type="submit"
+        className="mt-3"
+        onClick={handleSubmitForm}
+      >
         Submit
       </Button>
     </Form>
