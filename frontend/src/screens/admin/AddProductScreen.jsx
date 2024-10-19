@@ -6,7 +6,8 @@ const AddProductScreen = () => {
     title: "",
     price: "",
     category: "",
-    pickup_drop: "",
+    pickup: "",
+    drop: "",
     duration: "",
     descriptions: [""],
     inclusions: [""],
@@ -27,8 +28,8 @@ const AddProductScreen = () => {
       newErrors.price = "Price must be a positive number.";
     }
     if (!formData.category) newErrors.category = "Category is required.";
-    if (!formData.pickup_drop)
-      newErrors.pickup_drop = "Pickup/Drop is required.";
+    if (!formData.drop) newErrors.drop = "Drop is required.";
+    if (!formData.pickup) newErrors.pickup = "Pickup is required.";
     if (!formData.duration) newErrors.duration = "Duration is required.";
 
     // Image file validation
@@ -144,20 +145,40 @@ const AddProductScreen = () => {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId="formPickupDrop">
-        <Form.Label>Pickup/Drop</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter pickup/drop location"
-          name="pickup_drop"
-          value={formData.pickup_drop}
-          onChange={handleChange}
-          isInvalid={!!errors.pickup_drop}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.pickup_drop}
-        </Form.Control.Feedback>
-      </Form.Group>
+      <Row>
+        <Col lg={6}>
+          <Form.Group controlId="formPickupDrop">
+            <Form.Label>Pickup</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter pickup location"
+              name="pickup"
+              value={formData.pickup}
+              onChange={handleChange}
+              isInvalid={!!errors.pickup}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.pickup}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Col>
+        <Col lg={6}>
+          <Form.Group controlId="formPickupDrop">
+            <Form.Label>Drop</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter drop location"
+              name="drop"
+              value={formData.drop}
+              onChange={handleChange}
+              isInvalid={!!errors.drop}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.drop}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Col>
+      </Row>
 
       <Form.Group controlId="formDuration">
         <Form.Label>Duration</Form.Label>
@@ -228,7 +249,8 @@ const AddProductScreen = () => {
               </Col>
               <Col lg={6}>
                 <Form.Control
-                  type="text"
+                  as="textarea"
+                  rows={1}
                   placeholder="Enter list"
                   value={item.list}
                   onChange={(e) => handleChange(e, index, "list", "itinerary")}
