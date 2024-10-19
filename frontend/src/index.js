@@ -43,6 +43,7 @@ import ActivityScreen from "./screens/ActivityScreen";
 import ThemeScreen from "./screens/ThemeScreen";
 import AboutUsScreen from "./screens/AboutUsScreen";
 import CareerWithUs from "./screens/CareerWithUs";
+import AddProductScreen from "./screens/admin/AddProductScreen";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -55,6 +56,7 @@ const router = createBrowserRouter(
         path="/search/:keyword/page/:pageNumber"
         element={<HomeScreen />}
       />
+      <Route path="/products/add" element={<AddProductScreen />} />
       <Route path="/product/:id" element={<ProductScreen />} />
       <Route path="/order/:id" element={<OrderScreen />} />
       <Route path="/cart" element={<CartScreen />} />
@@ -83,6 +85,7 @@ const router = createBrowserRouter(
           path="/admin/products/:pageNumber"
           element={<ProductListScreen />}
         />
+        {/* <Route path="/admin/products/add" element={<AddProductScreen />} /> */}
         <Route path="/admin/users" element={<UserListScreen />} />
         <Route path="/admin/product/:id/edit" element={<ProductEditScreen />} />
         <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
