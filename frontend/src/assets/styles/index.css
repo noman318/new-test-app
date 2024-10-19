@@ -2079,3 +2079,53 @@
   object-fit: cover;
   border-radius: 10px; /* Optional styling */
 }
+
+.card-container {
+  margin: 0 1.5rem;
+}
+
+.card-article {
+  position: relative;
+}
+
+.card-img {
+  width: 100%;
+  border-radius: 1.5rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-data {
+  width: 90%;
+  background-color: var(--secondary-color);
+  padding: 1.5rem 2rem;
+  box-shadow: 0 8px 24px hsla(0, 0%, 0%, 0.15);
+  border-radius: 1rem;
+  position: absolute;
+  bottom: -9rem;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  z-index: 1;
+  transition: opacity 0.5s ease, bottom 0.5s ease;
+}
+
+.card-description {
+  font-size: var(--small-font-size);
+  margin-bottom: 0.25rem;
+}
+
+.card-title {
+  font-size: var(--h2-font-size);
+  font-weight: 500;
+  color: var(--title-color);
+  margin-bottom: 0.75rem;
+}
+
+.card-article:hover .card-data {
+  opacity: 1;
+  bottom: -1rem;
+}
+
+.card-article:hover .card-img {
+  transform: scale(1.05);
+}
