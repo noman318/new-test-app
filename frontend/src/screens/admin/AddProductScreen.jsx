@@ -180,7 +180,8 @@ const AddProductScreen = () => {
         {formData.descriptions.map((description, index) => (
           <Form.Control
             key={index}
-            type="text"
+            as="textarea"
+            rows={3}
             placeholder="Enter description"
             value={description}
             onChange={(e) => handleChange(e, index, null, "descriptions")}
@@ -216,7 +217,7 @@ const AddProductScreen = () => {
         {formData.itinerary.map((item, index) => (
           <div key={index} className="mb-3">
             <Row>
-              <Col>
+              <Col lg={6}>
                 <Form.Control
                   type="text"
                   placeholder="Enter itinerary title"
@@ -225,7 +226,7 @@ const AddProductScreen = () => {
                   className="mb-2"
                 />
               </Col>
-              <Col>
+              <Col lg={6}>
                 <Form.Control
                   type="text"
                   placeholder="Enter list"
@@ -234,9 +235,10 @@ const AddProductScreen = () => {
                   className="mb-2"
                 />
               </Col>
-              <Col>
+              <Col lg={12}>
                 <Form.Control
-                  type="text"
+                  as="textarea"
+                  rows={3}
                   placeholder="Enter note"
                   value={item.note}
                   onChange={(e) => handleChange(e, index, "note", "itinerary")}
