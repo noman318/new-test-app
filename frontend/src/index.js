@@ -1,50 +1,50 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 // import "bootstrap/dist/css/bootstrap.min.css";
-import "./assets/styles/index.css";
-import "./assets/styles/bootstrap.custom.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { HelmetProvider } from "react-helmet-async";
+import { Provider } from "react-redux";
 import {
   createBrowserRouter,
   createRoutesFromElements,
-  RouterProvider,
   Route,
+  RouterProvider,
 } from "react-router-dom";
-import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import HomeScreen from "./screens/HomeScreen";
-import ProductScreen from "./screens/ProductScreen";
-import { Provider } from "react-redux";
-import { HelmetProvider } from "react-helmet-async";
-import store from "./store";
-import CartScreen from "./screens/CartScreen";
-import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
-import ShippingScreen from "./screens/ShippingScreen";
+import App from "./App";
+import "./assets/styles/bootstrap.custom.css";
+import "./assets/styles/index.css";
+import AdminRoute from "./components/AdminRoute";
 import PrivateRoute from "./components/PrivateRoute";
+import reportWebVitals from "./reportWebVitals";
+import AboutUsScreen from "./screens/AboutUsScreen";
+import ActivityScreen from "./screens/ActivityScreen";
+import AddProductScreen from "./screens/admin/AddProductScreen";
+import OrderListScreen from "./screens/admin/OrderListScreen";
+import PaymentPolicy from "./screens/admin/PaymentPolicy";
+import ProductEditScreen from "./screens/admin/ProductEditScreen";
+import ProductListScreen from "./screens/admin/ProductListScreen";
+import UserEditScreen from "./screens/admin/UserEditScreen";
+import UserListScreen from "./screens/admin/UserListScreen";
+import AllGirlsTrips from "./screens/AllGirlsTrips";
+import CareerWithUs from "./screens/CareerWithUs";
+import CartScreen from "./screens/CartScreen";
+import ContactUsScreen from "./screens/ContactUsScreen";
+import CorporateProgram from "./screens/CorporateProgram";
+import DestinationScreen from "./screens/DestinationScreen";
+import ForgotPassword from "./screens/ForgotPassword";
+import HomeScreen from "./screens/HomeScreen";
+import LoginScreen from "./screens/LoginScreen";
+import NotFoundPage from "./screens/NotFoundPage";
+import OrderScreen from "./screens/OrderScreen";
+import PackageDetailPage from "./screens/PackageDetailPage";
 import PaymentScreen from "./screens/PaymentScreent";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
-import ForgotPassword from "./screens/ForgotPassword";
-import ResetPassword from "./screens/ResetPassword";
-import OrderScreen from "./screens/OrderScreen";
 import ProfileScreen from "./screens/ProfileScreen";
-import AdminRoute from "./components/AdminRoute";
-import OrderListScreen from "./screens/admin/OrderListScreen";
-import ProductListScreen from "./screens/admin/ProductListScreen";
-import ProductEditScreen from "./screens/admin/ProductEditScreen";
-import UserListScreen from "./screens/admin/UserListScreen";
-import UserEditScreen from "./screens/admin/UserEditScreen";
-import AllGirlsTrips from "./screens/AllGirlsTrips";
-import CorporateProgram from "./screens/CorporateProgram";
-import NotFoundPage from "./screens/NotFoundPage";
-import DestinationScreen from "./screens/DestinationScreen";
-import ContactUsScreen from "./screens/ContactUsScreen";
-import ActivityScreen from "./screens/ActivityScreen";
+import RegisterScreen from "./screens/RegisterScreen";
+import ResetPassword from "./screens/ResetPassword";
+import ShippingScreen from "./screens/ShippingScreen";
 import ThemeScreen from "./screens/ThemeScreen";
-import AboutUsScreen from "./screens/AboutUsScreen";
-import CareerWithUs from "./screens/CareerWithUs";
-import AddProductScreen from "./screens/admin/AddProductScreen";
-import PaymentPolicy from "./screens/admin/PaymentPolicy";
+import store from "./store";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -58,7 +58,7 @@ const router = createBrowserRouter(
         element={<HomeScreen />}
       />
       <Route path="/payment" element={<PaymentPolicy />} />
-      <Route path="/product/:id" element={<ProductScreen />} />
+      <Route path="/package/:id" element={<PackageDetailPage />} />
       <Route path="/order/:id" element={<OrderScreen />} />
       <Route path="/cart" element={<CartScreen />} />
       <Route path="/login" element={<LoginScreen />} />
@@ -93,7 +93,7 @@ const router = createBrowserRouter(
         <Route path="/admin/package/add" element={<AddProductScreen />} />
         {/* <Route path="/admin/packages/add" element={<AddProductScreen />} /> */}
         <Route path="/admin/users" element={<UserListScreen />} />
-        <Route path="/admin/product/:id/edit" element={<ProductEditScreen />} />
+        <Route path="/admin/package/:id/edit" element={<ProductEditScreen />} />
         <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
       </Route>
     </Route>

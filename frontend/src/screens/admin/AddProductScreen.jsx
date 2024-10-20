@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Button, Form, Alert, Col, Row } from "react-bootstrap";
-import { useCreateProductMutation } from "../../slices/productsApiSlice";
-import { toast } from "react-toastify";
+import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { useCreatePackageMutation } from "../../slices/packageApiSlice";
 
 const AddProductScreen = () => {
-  const [createProduct, { isLoading: productLoading }] =
-    useCreateProductMutation();
+  const [createPackage, { isLoading: productLoading }] =
+    useCreatePackageMutation();
   const [formData, setFormData] = useState({
     title: "",
     price: "",
@@ -14,14 +14,12 @@ const AddProductScreen = () => {
     pickup: "",
     drop: "",
     duration: "",
-    descriptions: "",
+    description: "",
     inclusions: [""],
     itinerary: [{ title: "", list: [""], notes: [""] }],
     exclusions: [""],
     image: null,
   });
-
-  console.log("formData :>> ", formData);
 
   const [errors, setErrors] = useState({});
   const [showAlert, setShowAlert] = useState(false);
@@ -66,19 +64,25 @@ const AddProductScreen = () => {
     } else if (section === "itinerary") {
       const updatedItinerary = [...formData.itinerary];
       if (listIndex !== null) {
-        // Handling list inside itinerary
         updatedItinerary[index].list[listIndex] = value;
       } else if (noteIndex !== null) {
-        // Handling notes inside itinerary
         updatedItinerary[index].notes[noteIndex] = value;
       } else {
         updatedItinerary[index][field] = value;
       }
       setFormData({ ...formData, itinerary: updatedItinerary });
+    } else if (name === "image" && files) {
+      const imageFile = files[0];
+
+      // Directly setting the image file in formData state
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        image: imageFile, // Set the File object here
+      }));
     } else {
       setFormData({
         ...formData,
-        [name]: files ? files[0] : value,
+        [name]: value,
       });
     }
   };
@@ -145,8 +149,40 @@ const AddProductScreen = () => {
         setErrors(validationErrors);
         setShowAlert(true);
       }
-      await createProduct().unwrap();
-      toast.success("Product Created");
+      const formDataToSend = new FormData();
+
+      // Append other fields to FormData
+      formDataToSend.append("title", formData.title);
+      formDataToSend.append("price", formData.price);
+      formDataToSend.append("category", formData.category);
+      formDataToSend.append("pickup", formData.pickup);
+      formDataToSend.append("drop", formData.drop);
+      formDataToSend.append("duration", formData.duration);
+      formDataToSend.append("description", formData.description);
+
+      // Append array fields (inclusions, exclusions, itinerary)
+      formData.inclusions.forEach((inclusion, idx) => {
+        formDataToSend.append(`inclusions[${idx}]`, inclusion);
+      });
+      formData.exclusions.forEach((exclusion, idx) => {
+        formDataToSend.append(`exclusions[${idx}]`, exclusion);
+      });
+      formData.itinerary.forEach((itineraryItem, idx) => {
+        formDataToSend.append(`itinerary[${idx}][title]`, itineraryItem.title);
+        itineraryItem.list.forEach((listItem) => {
+          formDataToSend.append(`itinerary[${idx}][list]`, listItem);
+        });
+        itineraryItem.notes.forEach((noteItem) => {
+          formDataToSend.append(`itinerary[${idx}][notes]`, noteItem);
+        });
+      });
+
+      // Append the thumbnail image (File or Blob)
+      if (formData.image) {
+        formDataToSend.append("image", formData.image);
+      }
+      await createPackage(formDataToSend).unwrap();
+      toast.success("Package Created");
       return;
     } catch (error) {
       console.log("error", error);
@@ -163,14 +199,14 @@ const AddProductScreen = () => {
       )}
 
       <Form.Group controlId="formTitle" className="mt-2">
-        <Form.Label>Title</Form.Label>
+        <Form.Label>Name</Form.Label>
         <Form.Control
           type="text"
-          placeholder="Enter product title"
+          placeholder="Enter Package name"
           name="title"
           value={formData.title}
           onChange={handleChange}
-          isInvalid={!!errors.title}
+          isInvalid={!!errors.name}
         />
         <Form.Control.Feedback type="invalid">
           {errors.title}
@@ -257,18 +293,18 @@ const AddProductScreen = () => {
         </Form.Control.Feedback>
       </Form.Group>
 
-      {/* Descriptions */}
-      <Form.Group controlId="formDescriptions" className="mt-2">
-        <Form.Label>Descriptions</Form.Label>
+      {/* Image */}
+      <Form.Group controlId="formImage">
+        <Form.Label>Image</Form.Label>
         <Form.Control
-          as="textarea"
-          rows={3}
-          name="descriptions"
-          placeholder="Enter description"
-          value={formData.descriptions}
+          type="file"
+          name="image"
           onChange={handleChange}
-          className="mb-2"
+          isInvalid={!!errors.image}
         />
+        <Form.Control.Feedback type="invalid">
+          {errors.image}
+        </Form.Control.Feedback>
       </Form.Group>
 
       {/* Inclusions */}
@@ -465,18 +501,18 @@ const AddProductScreen = () => {
         </Button>
       </Form.Group>
 
-      {/* Image */}
-      <Form.Group controlId="formImage">
-        <Form.Label>Image</Form.Label>
+      {/* Descriptions */}
+      <Form.Group controlId="formDescriptions" className="mt-2">
+        <Form.Label>Descriptions</Form.Label>
         <Form.Control
-          type="file"
-          name="image"
+          as="textarea"
+          rows={3}
+          name="description"
+          placeholder="Enter description"
+          value={formData.description}
           onChange={handleChange}
-          isInvalid={!!errors.image}
+          className="mb-2"
         />
-        <Form.Control.Feedback type="invalid">
-          {errors.image}
-        </Form.Control.Feedback>
       </Form.Group>
 
       <Button

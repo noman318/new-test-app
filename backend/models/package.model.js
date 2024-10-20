@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 const detailsSchema = mongoose.Schema({
-  detail_price: { type: String, required: true },
-  detail_title: { type: String, required: true },
-  detail_description: { type: String, required: true },
-  images: { type: String, required: true },
+  detail_price: { type: String },
+  detail_title: { type: String },
+  detail_description: { type: String },
+  images: { type: String },
 });
 const itenarySchema = mongoose.Schema({
-  title: { type: String, required: true },
-  list: { type: Array, required: true },
-  note: { type: String, required: true },
+  title: { type: String },
+  list: { type: Array },
+  note: { type: String },
 });
 const packageSchema = new mongoose.Schema(
   {
@@ -38,7 +38,7 @@ const packageSchema = new mongoose.Schema(
       required: true,
     },
     details: [detailsSchema],
-    pickUp: {
+    pickup: {
       type: String,
       required: true,
     },
@@ -51,17 +51,16 @@ const packageSchema = new mongoose.Schema(
       required: true,
     },
     itinerary: [itenarySchema],
-    inclusionDetail: {
+    inclusions: {
       type: [String],
     },
-    exclusionDetail: {
+    exclusions: {
       type: [String],
     },
     note: {
       type: String,
     },
   },
-
   {
     timestamps: true,
   }

@@ -1,45 +1,48 @@
 import { Container } from "react-bootstrap";
-import { travelExperiences } from "../screens/HomeScreen";
+import { Link } from "react-router-dom";
 
 const TravelCard = ({ data }) => {
+  console.log("data", data);
   return (
     <div className="travel-card">
-      <div
-        className="card-background"
-        style={{ backgroundImage: `url(${data.imageUrl})` }}
-      >
-        <span className="best-seller-badge">Best Seller</span>
-        <div className="card-content">
-          <h2 className="card-title">{data.title}</h2>
-          <div className="location-badge">
-            <i className="bi bi-geo-alt-fill"></i> {data.location}
-          </div>
-          <div className="trip-details">
-            <span>
-              <i className="bi bi-clock"></i> {data.duration}
-            </span>
-            <span>
-              <i className="bi bi-calendar"></i> {data.season}
-            </span>
-          </div>
-          <div className="card-footer">
-            <div className="price">₹ {data.price.toLocaleString()}</div>
-            <div className="rating">
-              {"★".repeat(5)}{" "}
-              <span className="review-count">({data.reviewCount})</span>
+      <Link to={`/package/${data?.id}`}>
+        <div
+          className="card-background"
+          style={{ backgroundImage: `url(${data.imageUrl})` }}
+        >
+          <span className="best-seller-badge">Best Seller</span>
+          <div className="card-content">
+            <h2 className="card-title">{data.title}</h2>
+            <div className="location-badge">
+              <i className="bi bi-geo-alt-fill"></i> {data.location}
+            </div>
+            <div className="trip-details">
+              <span>
+                <i className="bi bi-clock"></i> {data.duration}
+              </span>
+              <span>
+                <i className="bi bi-calendar"></i> {data.season}
+              </span>
+            </div>
+            <div className="card-footer">
+              <div className="price">₹ {data.price.toLocaleString()}</div>
+              <div className="rating">
+                {"★".repeat(5)}{" "}
+                <span className="review-count">({data.reviewCount})</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };
 
-const TravelGrid = () => {
+export const TravelGrid = ({ data }) => {
   return (
     <div className="container-fluid py-4">
       <div className="row g-4">
-        {travelExperiences?.map((experience) => (
+        {data?.map((experience) => (
           <div
             key={experience.id}
             className="col-12 col-sm-6 col-lg-4 col-xl-3"
@@ -52,7 +55,7 @@ const TravelGrid = () => {
   );
 };
 
-export const TravelCardMap = ({ title }) => {
+export const TravelCardMap = ({ title, data }) => {
   return (
     <>
       <style>
@@ -184,10 +187,11 @@ export const TravelCardMap = ({ title }) => {
             marginBottom: "-0.7rem",
             marginLeft: "1rem",
           }}
+          className="mt-4rem display-4 fw-semibold"
         >
           {title}
         </h4>
-        <TravelGrid />
+        <TravelGrid data={data} />
       </Container>
     </>
   );

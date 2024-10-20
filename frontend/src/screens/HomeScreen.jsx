@@ -11,6 +11,7 @@ import BlogListing from "../components/BlogListing";
 import RecognitionsSection from "../components/RecognitionsSection";
 import NewsletterSignup from "../components/NewsletterSignup";
 import CustomBanner from "../components/CustomBanner";
+import { useGetAllPackagesQuery } from "../slices/packageApiSlice";
 
 export const destinations = [
   {
@@ -75,11 +76,26 @@ export const travelExperiences = [
       "https://plus.unsplash.com/premium_photo-1683408267588-ebc95a4cf9a8?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
 ];
+
+const transformPackagesToTravelExperiences = (packages) => {
+  return packages?.map((pkg) => ({
+    id: pkg?._id, // Assuming id is based on index
+    title: pkg?.title,
+    location: `${pkg?.pickup} to ${pkg?.drop}`,
+    duration: pkg?.duration,
+    price: pkg?.price,
+    imageUrl: pkg?.thumbnail_image?.[0]?.replace(/\\/g, "/"),
+  }));
+};
+
 export default function HomeScreen() {
+  const { data: packages } = useGetAllPackagesQuery();
+  const travelExperiencesNew = transformPackagesToTravelExperiences(packages);
+  console.log("travelExperiencesNew", travelExperiencesNew);
   return (
     <Container>
       <DestinationCard title={"Destination"} />
-      <TravelCardMap title={"Category"} />
+      <TravelCardMap title={"Category"} data={travelExperiencesNew} />
       <DestinationCard title={"Themes"} />
       <ServicesTabs />
       <CustomBanner

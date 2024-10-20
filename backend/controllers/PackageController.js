@@ -163,13 +163,14 @@ const createPackageItems = async (req, res, next) => {
       title,
       category,
       description,
-      pickUp,
+      pickup,
       drop,
       duration,
       itinerary,
-      inclusionDetail,
-      exclusionDetail,
+      inclusions,
+      exclusions,
     } = req.body;
+    console.log("req.body", req.body);
     const images = req.file ? req.file.path : [];
     const packageData = {
       price,
@@ -178,13 +179,14 @@ const createPackageItems = async (req, res, next) => {
       category,
       thumbnail_image: images,
       user: req.user._id,
-      pickUp,
+      pickup,
       drop,
       duration,
       itinerary,
-      inclusionDetail,
-      exclusionDetail,
+      inclusions,
+      exclusions,
     };
+    console.log("packageData", packageData);
     const createdDestination = await Package.create(packageData);
     return res.status(201).json(createdDestination);
   } catch (error) {
@@ -201,7 +203,7 @@ const deletePackage = async (req, res, next) => {
     res.status(200).json("Deleted successfully");
   } else {
     res.status(404);
-    throw new Error("Destination not found");
+    throw new Error("Package not found");
   }
 };
 

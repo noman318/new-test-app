@@ -2,27 +2,29 @@ import React from "react";
 import { Button, Col, Row, Table } from "react-bootstrap";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import PaginateComponent from "../../components/Paginate";
 import {
-  useDeleteProductByIdMutation,
-  useGetProductsQuery,
-} from "../../slices/productsApiSlice";
+  useGetAllPackagesQuery,
+  useDeletePackageByIdMutation,
+} from "../../slices/packageApiSlice";
+
 const ProductListScreen = () => {
-  const { pageNumber } = useParams();
   const {
-    data: products,
+    data: packages,
     isLoading,
     error,
     refetch,
-  } = useGetProductsQuery({ pageNumber });
+  } = useGetAllPackagesQuery();
+
+  console.log("packages", packages);
   const navigate = useNavigate();
 
-  const [deleteProduct, { isLoading: loadingDeleteProduct }] =
-    useDeleteProductByIdMutation();
+  const [deletePackage, { isLoading: loadingDeletePackage }] =
+    useDeletePackageByIdMutation();
 
   const handleCreateProduct = async () => {
     try {
@@ -32,11 +34,10 @@ const ProductListScreen = () => {
       toast.error(error?.data?.message || error.error);
     }
   };
-  const handleDeleteProduct = async (id) => {
-    console.log("id", id);
+  const handleDeletePackage = async (id) => {
     try {
-      if (window.confirm("You want to create New product")) {
-        await deleteProduct(id).unwrap();
+      if (window.confirm("You want to delete product")) {
+        await deletePackage(id).unwrap();
         toast.success("Product deleted");
         refetch();
         return;
@@ -75,20 +76,22 @@ const ProductListScreen = () => {
                 <th>NAME</th>
                 <th>PRICE</th>
                 <th>CATEGORY</th>
-                <th>BRAND</th>
+                <th>PICK</th>
+                <th>DROP</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {products?.products?.map((product, index) => (
-                <tr key={product?._id}>
+              {packages?.map((data, index) => (
+                <tr key={data?._id}>
                   <td>{index + 1}</td>
-                  <td>{product?.name}</td>
-                  <td>Rs. {product?.price}</td>
-                  <td>{product?.category}</td>
-                  <td>{product?.brand}</td>
+                  <td>{data?.title}</td>
+                  <td>Rs. {data?.price}</td>
+                  <td>{data?.category}</td>
+                  <td>{data?.pickup}</td>
+                  <td>{data?.drop}</td>
                   <td>
-                    <LinkContainer to={`/admin/product/${product?._id}/edit`}>
+                    <LinkContainer to={`/admin/package/${data?._id}/edit`}>
                       <Button className="btn-sm mx-2">
                         <FaEdit />
                       </Button>
@@ -96,8 +99,8 @@ const ProductListScreen = () => {
                     <Button
                       variant="danger"
                       className="btn-sm"
-                      onClick={() => handleDeleteProduct(product?._id)}
-                      disabled={loadingDeleteProduct}
+                      onClick={() => handleDeletePackage(data?._id)}
+                      disabled={loadingDeletePackage}
                     >
                       <FaTrash color="white" />
                     </Button>
@@ -107,8 +110,8 @@ const ProductListScreen = () => {
             </tbody>
           </Table>
           <PaginateComponent
-            page={products.page}
-            pages={products.pages}
+            page={packages.page}
+            pages={packages.pages}
             isAdmin={true}
           />
         </>
