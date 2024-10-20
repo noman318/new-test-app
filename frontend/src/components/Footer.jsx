@@ -23,7 +23,7 @@ export default function Footer() {
             <div className="footer-brand">
               <img
                 src="/images/TrippyIndiaVertical.png"
-                alt="Travel Tour Logo"
+                alt="Trippy India Logo"
                 className="footer-logo"
               />
               <div className="social-icons-wrapper">
