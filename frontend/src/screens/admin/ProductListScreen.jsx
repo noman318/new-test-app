@@ -1,17 +1,16 @@
 import React from "react";
+import { Button, Col, Row, Table } from "react-bootstrap";
+import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
+import { LinkContainer } from "react-router-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import Loader from "../../components/Loader";
+import Message from "../../components/Message";
+import PaginateComponent from "../../components/Paginate";
 import {
-  useCreateProductMutation,
   useDeleteProductByIdMutation,
   useGetProductsQuery,
 } from "../../slices/productsApiSlice";
-import { LinkContainer } from "react-router-bootstrap";
-import { Table, Button, Row, Col } from "react-bootstrap";
-import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
-import Loader from "../../components/Loader";
-import Message from "../../components/Message";
-import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
-import PaginateComponent from "../../components/Paginate";
 const ProductListScreen = () => {
   const { pageNumber } = useParams();
   const {
@@ -20,22 +19,23 @@ const ProductListScreen = () => {
     error,
     refetch,
   } = useGetProductsQuery({ pageNumber });
+  const navigate = useNavigate();
 
   const [deleteProduct, { isLoading: loadingDeleteProduct }] =
     useDeleteProductByIdMutation();
-  const [createProduct, { isLoading: productLoading }] =
-    useCreateProductMutation();
+
   console.log("products", products);
   const handleCreateProduct = async () => {
     try {
-      if (window.confirm("You want to create New product")) {
-        await createProduct().unwrap();
-        toast.success("Product Created");
-        refetch();
-        return;
-      } else {
-        return;
-      }
+      // if (window.confirm("You want to create New product")) {
+      //   await createProduct().unwrap();
+      //   toast.success("Product Created");
+      //   refetch();
+      //   return;
+      // } else {
+      //   return;
+      // }
+      navigate("/admin/package/add");
     } catch (error) {
       console.log("error", error);
       toast.error(error?.data?.message || error.error);
@@ -59,17 +59,13 @@ const ProductListScreen = () => {
   };
   return (
     <>
-      <Row className="align-items-center">
+      <Row className="align-items-center mt-4rem">
         <Col>
-          <h1>Products</h1>
+          <h1>Packages</h1>
         </Col>
         <Col className="text-end">
-          <Button
-            className="btn-sm m-3"
-            onClick={handleCreateProduct}
-            disabled={productLoading}
-          >
-            <FaPlus /> Create Product
+          <Button className="btn-sm m-3" onClick={handleCreateProduct}>
+            <FaPlus /> Create Package
           </Button>
         </Col>
       </Row>

@@ -3,6 +3,7 @@ import { NavDropdown, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
 const CustomNavDropDown = ({ title, data }) => {
+  const newTitle = title?.toLowerCase()?.split(" ")?.join()?.replace(/,/g, "-");
   return (
     <NavDropdown
       title={`${title}`}
@@ -13,7 +14,7 @@ const CustomNavDropDown = ({ title, data }) => {
         {data.map((activity, index) => (
           <LinkContainer
             key={index}
-            to={`/${title.toLowerCase()}/${activity
+            to={`/${newTitle?.toLowerCase()}/${activity
               .toLowerCase()
               .replace(/\s+/g, "-")}`}
           >

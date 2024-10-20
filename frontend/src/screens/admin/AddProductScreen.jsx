@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Button, Form, Alert, Col, Row } from "react-bootstrap";
+import { useCreateProductMutation } from "../../slices/productsApiSlice";
+import { toast } from "react-toastify";
 
 const AddProductScreen = () => {
+  const [createProduct, { isLoading: productLoading }] =
+    useCreateProductMutation();
   const [formData, setFormData] = useState({
     title: "",
     price: "",
@@ -77,23 +81,33 @@ const AddProductScreen = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const validationErrors = validate();
+  const handleCreatePackage = async (e) => {
+    try {
+      e.preventDefault();
+      const validationErrors = validate();
 
-    if (Object.keys(validationErrors).length === 0) {
-      console.log("Form Data:", formData);
-      setShowAlert(false);
-    } else {
-      setErrors(validationErrors);
-      setShowAlert(true);
+      if (Object.keys(validationErrors).length === 0) {
+        console.log("Form Data:", formData);
+        setShowAlert(false);
+      } else {
+        setErrors(validationErrors);
+        setShowAlert(true);
+      }
+      if (window.confirm("You want to create New product")) {
+        await createProduct().unwrap();
+        toast.success("Product Created");
+        return;
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.log("error", error);
+      toast.error(error?.data?.message || error.error);
     }
   };
 
-  const handleSubmitForm = () => {};
-
   return (
-    <Form onSubmit={handleSubmit} className="mt-4rem">
+    <Form onSubmit={handleCreatePackage} className="mt-4rem">
       {showAlert && (
         <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>
           Please correct the highlighted fields.
@@ -287,7 +301,7 @@ const AddProductScreen = () => {
         variant="primary"
         type="submit"
         className="mt-3"
-        onClick={handleSubmitForm}
+        disabled={productLoading}
       >
         Submit
       </Button>

@@ -6,7 +6,7 @@ import { destinations } from "../screens/HomeScreen";
 const DestinationCard = ({ title }) => {
   return (
     <>
-      <h4 className="text-success mt-4rem">{title}</h4>
+      <h4 className="mt-4rem display-4 fw-semibold">{title}</h4>
       <Row>
         <Col
           className="pointer"
@@ -24,6 +24,7 @@ const DestinationCard = ({ title }) => {
               padding: "5px",
               borderRadius: "5px",
               zIndex: 1,
+              fontSize: "larger",
             }}
           >
             {destinations?.[0]?.name}
@@ -55,6 +56,7 @@ const DestinationCard = ({ title }) => {
                 padding: "5px",
                 borderRadius: "5px",
                 zIndex: 1,
+                fontSize: "larger",
               }}
             >
               {destinations?.[0]?.name}
@@ -91,6 +93,7 @@ const DestinationCard = ({ title }) => {
                   padding: "5px",
                   borderRadius: "5px",
                   zIndex: 1,
+                  fontSize: "larger",
                 }}
               >
                 {destinations?.[0]?.name}
@@ -127,6 +130,7 @@ const DestinationCard = ({ title }) => {
                   padding: "5px",
                   borderRadius: "5px",
                   zIndex: 1,
+                  fontSize: "larger",
                 }}
               >
                 {destinations?.[2]?.name}
@@ -163,6 +167,7 @@ const DestinationCard = ({ title }) => {
               padding: "5px",
               borderRadius: "5px",
               zIndex: 1,
+              fontSize: "larger",
             }}
           >
             {destinations?.[1]?.name}
@@ -195,6 +200,7 @@ const DestinationCard = ({ title }) => {
               padding: "5px",
               borderRadius: "5px",
               zIndex: 1,
+              fontSize: "larger",
             }}
           >
             {destinations?.[1]?.name}
@@ -227,6 +233,7 @@ const DestinationCard = ({ title }) => {
               padding: "5px",
               borderRadius: "5px",
               zIndex: 1,
+              fontSize: "larger",
             }}
           >
             {destinations?.[1]?.name}

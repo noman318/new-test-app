@@ -8,8 +8,8 @@ import {
   NavDropdown,
   Row,
 } from "react-bootstrap";
-import { FaPhone, FaSearch } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { FaPhone } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -17,6 +17,15 @@ import { logout } from "../slices/authSlice";
 import { resetCart } from "../slices/cartSlice";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import CustomNavDropDown from "./CustomNavDropDown";
+
+const treks = [
+  "Kedar Kantha",
+  "Bram Taal",
+  "Chopta Chandrashila Tungnath",
+  "Gulabi Kantha",
+  "Kauri Pass",
+  "Dayra Bugga",
+];
 const activities = [
   "Bungee Jumping",
   "Camping",
@@ -37,7 +46,7 @@ const themes = [
   "School Tours",
 ];
 export default function Header() {
-  // const { userInformation } = useSelector((state) => state?.auth);
+  const { userInformation } = useSelector((state) => state?.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // console.log("userInformation", userInformation);
@@ -50,9 +59,6 @@ export default function Header() {
       dispatch(logout());
       dispatch(resetCart());
       toast.success("Logged Out Successfully");
-      setTimeout(() => {
-        navigate("/login");
-      }, 3000);
     } catch (error) {
       console.log("error", error);
       toast.error(error?.data?.message || error?.error);
@@ -84,6 +90,7 @@ export default function Header() {
 
           <Navbar.Collapse id="navbarContent">
             <Nav className="mx-auto">
+              <CustomNavDropDown title={"Trips and Tricks"} data={treks} />
               <NavDropdown
                 title="Destinations"
                 id="navbarDropdown"
@@ -138,7 +145,23 @@ export default function Header() {
                 </LinkContainer>
               </NavDropdown>
             </Nav>
-
+            {userInformation && userInformation.isAdmin && (
+              <NavDropdown
+                title={userInformation?.name}
+                id="username"
+                style={{ marginRight: "2rem" }}
+              >
+                <LinkContainer to="/admin/packages">
+                  <NavDropdown.Item>Packages</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/admin/orders">
+                  <NavDropdown.Item>Bookings</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/admin/users">
+                  <NavDropdown.Item>Users</NavDropdown.Item>
+                </LinkContainer>
+              </NavDropdown>
+            )}
             <div className="nav-end-section">
               <div className="phone-number">
                 <a
@@ -157,10 +180,24 @@ export default function Header() {
                   </span>
                 </a>
               </div>
-              <Button className="login-btn">Login</Button>
-              <Button variant="link" className="search-btn">
+              {userInformation?.name ? (
+                <Button className="login-btn" onClick={logoutHandler}>
+                  Logout
+                </Button>
+              ) : (
+                <Button
+                  className="login-btn"
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
+                  Login
+                </Button>
+              )}
+
+              {/* <Button variant="link" className="search-btn">
                 <FaSearch size={20} color="#009846" />
-              </Button>
+              </Button> */}
             </div>
           </Navbar.Collapse>
         </Container>
