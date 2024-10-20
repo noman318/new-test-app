@@ -154,7 +154,7 @@ export default function Header() {
                 <LinkContainer to="/admin/packages">
                   <NavDropdown.Item>Packages</NavDropdown.Item>
                 </LinkContainer>
-                <LinkContainer to="/admin/orders">
+                <LinkContainer to="/admin/bookings">
                   <NavDropdown.Item>Bookings</NavDropdown.Item>
                 </LinkContainer>
                 <LinkContainer to="/admin/users">

@@ -84,7 +84,7 @@ const router = createBrowserRouter(
         <Route path="/profile" element={<ProfileScreen />} />
       </Route>
       <Route path="" element={<AdminRoute />}>
-        <Route path="/admin/orders" element={<OrderListScreen />} />
+        <Route path="/admin/bookings" element={<OrderListScreen />} />
         <Route path="/admin/packages" element={<ProductListScreen />} />
         <Route
           path="/admin/packages/:pageNumber"

@@ -27,7 +27,6 @@ const OrderListScreen = () => {
               <td>USER</td>
               <td>DATE</td>
               <td>PAID</td>
-              <td>DELIVER</td>
               <td></td>
             </tr>
           </thead>
@@ -40,13 +39,6 @@ const OrderListScreen = () => {
                 <td>
                   {order?.isPaid ? (
                     order?.paidAt?.substring(0, 10)
-                  ) : (
-                    <FaTimes color="red" />
-                  )}
-                </td>
-                <td>
-                  {order?.isDelivered ? (
-                    order?.deliveredAt?.substring(0, 10)
                   ) : (
                     <FaTimes color="red" />
                   )}
