@@ -145,13 +145,9 @@ const AddProductScreen = () => {
         setErrors(validationErrors);
         setShowAlert(true);
       }
-      if (window.confirm("You want to create New product")) {
-        await createProduct().unwrap();
-        toast.success("Product Created");
-        return;
-      } else {
-        return;
-      }
+      await createProduct().unwrap();
+      toast.success("Product Created");
+      return;
     } catch (error) {
       console.log("error", error);
       toast.error(error?.data?.message || error.error);
@@ -162,11 +158,11 @@ const AddProductScreen = () => {
     <Form onSubmit={handleCreatePackage} className="mt-4rem">
       {showAlert && (
         <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>
-          Please correct the highlighted fields.
+          Please Add the highlighted fields.
         </Alert>
       )}
 
-      <Form.Group controlId="formTitle">
+      <Form.Group controlId="formTitle" className="mt-2">
         <Form.Label>Title</Form.Label>
         <Form.Control
           type="text"
@@ -181,7 +177,7 @@ const AddProductScreen = () => {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId="formPrice">
+      <Form.Group controlId="formPrice" className="mt-2">
         <Form.Label>Price</Form.Label>
         <Form.Control
           type="number"
@@ -196,7 +192,7 @@ const AddProductScreen = () => {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId="formCategory">
+      <Form.Group controlId="formCategory" className="mt-2">
         <Form.Label>Category</Form.Label>
         <Form.Control
           type="text"
@@ -213,7 +209,7 @@ const AddProductScreen = () => {
 
       <Row>
         <Col lg={6}>
-          <Form.Group controlId="formPickupDrop">
+          <Form.Group controlId="formPickupDrop" className="mt-2">
             <Form.Label>Pickup</Form.Label>
             <Form.Control
               type="text"
@@ -229,7 +225,7 @@ const AddProductScreen = () => {
           </Form.Group>
         </Col>
         <Col lg={6}>
-          <Form.Group controlId="formPickupDrop">
+          <Form.Group controlId="formPickupDrop" className="mt-2">
             <Form.Label>Drop</Form.Label>
             <Form.Control
               type="text"
@@ -246,7 +242,7 @@ const AddProductScreen = () => {
         </Col>
       </Row>
 
-      <Form.Group controlId="formDuration">
+      <Form.Group controlId="formDuration" className="mt-2">
         <Form.Label>Duration</Form.Label>
         <Form.Control
           type="text"
@@ -262,7 +258,7 @@ const AddProductScreen = () => {
       </Form.Group>
 
       {/* Descriptions */}
-      <Form.Group controlId="formDescriptions">
+      <Form.Group controlId="formDescriptions" className="mt-2">
         <Form.Label>Descriptions</Form.Label>
         <Form.Control
           as="textarea"
@@ -276,7 +272,7 @@ const AddProductScreen = () => {
       </Form.Group>
 
       {/* Inclusions */}
-      <Form.Group controlId="formInclusions">
+      <Form.Group controlId="formInclusions" className="mt-3">
         <Form.Label>Inclusions</Form.Label>
         {formData.inclusions.map((inclusion, index) => (
           <div key={index} className="mb-2">
@@ -308,7 +304,7 @@ const AddProductScreen = () => {
       </Form.Group>
 
       {/* Exclution */}
-      <Form.Group controlId="formInclusions">
+      <Form.Group controlId="formInclusions" className="mt-3">
         <Form.Label>Exclusions</Form.Label>
         {formData.exclusions.map((exclusion, index) => (
           <div key={index} className="mb-2">
