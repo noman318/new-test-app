@@ -307,6 +307,42 @@ const AddProductScreen = () => {
         </Button>
       </Form.Group>
 
+      {/* Exclution */}
+      <Form.Group controlId="formInclusions">
+        <Form.Label>Exclusions</Form.Label>
+        {formData.exclusions.map((exclusion, index) => (
+          <div key={index} className="mb-2">
+            <Row>
+              <Col lg={10}>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter inclusion"
+                  value={exclusion}
+                  onChange={(e) => handleChange(e, index, null, "exclusions")}
+                />
+              </Col>
+              {formData.exclusions.length > 1 && (
+                <Col lg={2}>
+                  <Button
+                    variant="danger"
+                    onClick={() => removeField("exclusions", index)}
+                  >
+                    <FaTrash />
+                  </Button>
+                </Col>
+              )}
+            </Row>
+          </div>
+        ))}
+        <Button
+          variant="secondary"
+          onClick={() => addField("exclusions")}
+          className="mb-4"
+        >
+          Add Exclution
+        </Button>
+      </Form.Group>
+
       {/* Itinerary */}
       <Form.Group controlId="formItinerary">
         <Form.Label>Itinerary</Form.Label>
@@ -424,40 +460,12 @@ const AddProductScreen = () => {
             )}
           </div>
         ))}
-        <Button variant="secondary" onClick={() => addField("itinerary")}>
+        <Button
+          variant="secondary"
+          onClick={() => addField("itinerary")}
+          className="mb-4"
+        >
           Add Itinerary
-        </Button>
-      </Form.Group>
-
-      {/* Exclution */}
-      <Form.Group controlId="formInclusions">
-        <Form.Label>Exclusions</Form.Label>
-        {formData.exclusions.map((exclusion, index) => (
-          <div key={index} className="mb-2">
-            <Row>
-              <Col lg={10}>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter inclusion"
-                  value={exclusion}
-                  onChange={(e) => handleChange(e, index, null, "exclusions")}
-                />
-              </Col>
-              {formData.exclusions.length > 1 && (
-                <Col lg={2}>
-                  <Button
-                    variant="danger"
-                    onClick={() => removeField("exclusions", index)}
-                  >
-                    <FaTrash />
-                  </Button>
-                </Col>
-              )}
-            </Row>
-          </div>
-        ))}
-        <Button variant="secondary" onClick={() => addField("exclusions")}>
-          Add Exclution
         </Button>
       </Form.Group>
 

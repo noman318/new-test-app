@@ -24,17 +24,8 @@ const ProductListScreen = () => {
   const [deleteProduct, { isLoading: loadingDeleteProduct }] =
     useDeleteProductByIdMutation();
 
-  console.log("products", products);
   const handleCreateProduct = async () => {
     try {
-      // if (window.confirm("You want to create New product")) {
-      //   await createProduct().unwrap();
-      //   toast.success("Product Created");
-      //   refetch();
-      //   return;
-      // } else {
-      //   return;
-      // }
       navigate("/admin/package/add");
     } catch (error) {
       console.log("error", error);
