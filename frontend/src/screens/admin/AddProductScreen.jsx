@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Form, Alert, Col, Row } from "react-bootstrap";
 import { useCreateProductMutation } from "../../slices/productsApiSlice";
 import { toast } from "react-toastify";
+import { FaTrash } from "react-icons/fa";
 
 const AddProductScreen = () => {
   const [createProduct, { isLoading: productLoading }] =
@@ -15,7 +16,8 @@ const AddProductScreen = () => {
     duration: "",
     descriptions: "",
     inclusions: [""],
-    itinerary: [{ title: "", list: "", note: "" }],
+    itinerary: [{ title: "", list: [""], notes: [""] }],
+    exclusions: [""],
     image: null,
   });
 
@@ -24,6 +26,7 @@ const AddProductScreen = () => {
   const [errors, setErrors] = useState({});
   const [showAlert, setShowAlert] = useState(false);
 
+  // Validate form data
   const validate = () => {
     let newErrors = {};
 
@@ -37,25 +40,40 @@ const AddProductScreen = () => {
     if (!formData.drop) newErrors.drop = "Drop is required.";
     if (!formData.pickup) newErrors.pickup = "Pickup is required.";
     if (!formData.duration) newErrors.duration = "Duration is required.";
-
-    // Image file validation
-    if (!formData.image) {
-      newErrors.image = "Image is required.";
-    }
+    if (!formData.image) newErrors.image = "Image is required.";
 
     return newErrors;
   };
 
-  const handleChange = (e, index, field, section) => {
+  const handleChange = (
+    e,
+    index,
+    field,
+    section,
+    listIndex = null,
+    noteIndex = null
+  ) => {
     const { name, value, files } = e.target;
 
     if (section === "inclusions") {
       const updatedInclusions = [...formData.inclusions];
       updatedInclusions[index] = value;
       setFormData({ ...formData, inclusions: updatedInclusions });
+    } else if (section === "exclusions") {
+      const updatedExclusions = [...formData.exclusions];
+      updatedExclusions[index] = value;
+      setFormData({ ...formData, exclusions: updatedExclusions });
     } else if (section === "itinerary") {
       const updatedItinerary = [...formData.itinerary];
-      updatedItinerary[index][field] = value;
+      if (listIndex !== null) {
+        // Handling list inside itinerary
+        updatedItinerary[index].list[listIndex] = value;
+      } else if (noteIndex !== null) {
+        // Handling notes inside itinerary
+        updatedItinerary[index].notes[noteIndex] = value;
+      } else {
+        updatedItinerary[index][field] = value;
+      }
       setFormData({ ...formData, itinerary: updatedItinerary });
     } else {
       setFormData({
@@ -65,19 +83,53 @@ const AddProductScreen = () => {
     }
   };
 
-  const addField = (section) => {
-    if (section === "descriptions") {
-      setFormData({
-        ...formData,
-        descriptions: [...formData.descriptions, ""],
-      });
-    } else if (section === "inclusions") {
+  // Add a field
+  const addField = (section, index = null) => {
+    if (section === "inclusions") {
       setFormData({ ...formData, inclusions: [...formData.inclusions, ""] });
+    } else if (section === "exclusions") {
+      setFormData({ ...formData, exclusions: [...formData.exclusions, ""] });
     } else if (section === "itinerary") {
       setFormData({
         ...formData,
-        itinerary: [...formData.itinerary, { title: "", list: "", note: "" }],
+        itinerary: [
+          ...formData.itinerary,
+          { title: "", list: [""], notes: [""] },
+        ],
       });
+    } else if (section === "itineraryList") {
+      const updatedItinerary = [...formData.itinerary];
+      updatedItinerary[index].list.push("");
+      setFormData({ ...formData, itinerary: updatedItinerary });
+    } else if (section === "itineraryNotes") {
+      const updatedItinerary = [...formData.itinerary];
+      updatedItinerary[index].notes.push("");
+      setFormData({ ...formData, itinerary: updatedItinerary });
+    }
+  };
+
+  // Remove a field
+  const removeField = (section, index, listIndex = null, noteIndex = null) => {
+    if (section === "inclusions") {
+      const updatedInclusions = [...formData.inclusions];
+      updatedInclusions.splice(index, 1);
+      setFormData({ ...formData, inclusions: updatedInclusions });
+    } else if (section === "exclusions") {
+      const updatedExclusions = [...formData.exclusions];
+      updatedExclusions.splice(index, 1);
+      setFormData({ ...formData, exclusions: updatedExclusions });
+    } else if (section === "itineraryList") {
+      const updatedItinerary = [...formData.itinerary];
+      updatedItinerary[index].list.splice(listIndex, 1);
+      setFormData({ ...formData, itinerary: updatedItinerary });
+    } else if (section === "itineraryNotes") {
+      const updatedItinerary = [...formData.itinerary];
+      updatedItinerary[index].notes.splice(noteIndex, 1);
+      setFormData({ ...formData, itinerary: updatedItinerary });
+    } else if (section === "itinerary") {
+      const updatedItinerary = [...formData.itinerary];
+      updatedItinerary.splice(index, 1);
+      setFormData({ ...formData, itinerary: updatedItinerary });
     }
   };
 
@@ -227,14 +279,28 @@ const AddProductScreen = () => {
       <Form.Group controlId="formInclusions">
         <Form.Label>Inclusions</Form.Label>
         {formData.inclusions.map((inclusion, index) => (
-          <Form.Control
-            key={index}
-            type="text"
-            placeholder="Enter inclusion"
-            value={inclusion}
-            onChange={(e) => handleChange(e, index, null, "inclusions")}
-            className="mb-2"
-          />
+          <div key={index} className="mb-2">
+            <Row>
+              <Col lg={10}>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter inclusion"
+                  value={inclusion}
+                  onChange={(e) => handleChange(e, index, null, "inclusions")}
+                />
+              </Col>
+              {formData.inclusions.length > 1 && (
+                <Col lg={2}>
+                  <Button
+                    variant="danger"
+                    onClick={() => removeField("inclusions", index)}
+                  >
+                    <FaTrash />
+                  </Button>
+                </Col>
+              )}
+            </Row>
+          </div>
         ))}
         <Button variant="secondary" onClick={() => addField("inclusions")}>
           Add Inclusion
@@ -245,9 +311,9 @@ const AddProductScreen = () => {
       <Form.Group controlId="formItinerary">
         <Form.Label>Itinerary</Form.Label>
         {formData.itinerary.map((item, index) => (
-          <div key={index} className="mb-3">
+          <div key={index} className="mb-4 p-3 rounded">
             <Row>
-              <Col lg={6}>
+              <Col lg={12}>
                 <Form.Control
                   type="text"
                   placeholder="Enter itinerary title"
@@ -256,27 +322,106 @@ const AddProductScreen = () => {
                   className="mb-2"
                 />
               </Col>
+            </Row>
+
+            <Row>
+              {/* Itinerary List */}
               <Col lg={6}>
-                <Form.Control
-                  as="textarea"
-                  rows={1}
-                  placeholder="Enter list"
-                  value={item.list}
-                  onChange={(e) => handleChange(e, index, "list", "itinerary")}
+                {item.list.map((listItem, listIndex) => (
+                  <Row key={listIndex} className="mb-2">
+                    <Col lg={10}>
+                      <Form.Control
+                        as="textarea"
+                        rows={1}
+                        placeholder="Enter itinerary item"
+                        value={listItem}
+                        onChange={(e) =>
+                          handleChange(e, index, null, "itinerary", listIndex)
+                        }
+                      />
+                    </Col>
+                    {item.list.length > 1 && (
+                      <Col lg={1}>
+                        <Button
+                          variant="danger"
+                          onClick={() =>
+                            removeField("itineraryList", index, listIndex)
+                          }
+                        >
+                          <FaTrash />
+                        </Button>
+                      </Col>
+                    )}
+                  </Row>
+                ))}
+                <Button
+                  variant="secondary"
+                  onClick={() => addField("itineraryList", index)}
                   className="mb-2"
-                />
+                >
+                  Add Itinerary Item
+                </Button>
               </Col>
-              <Col lg={12}>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  placeholder="Enter note"
-                  value={item.note}
-                  onChange={(e) => handleChange(e, index, "note", "itinerary")}
+
+              <Col lg={6}>
+                {/* Itinerary Notes */}
+                {item.notes.map((note, noteIndex) => (
+                  <Row key={noteIndex} className="mb-2">
+                    <Col lg={10}>
+                      <Form.Control
+                        as="textarea"
+                        rows={1}
+                        placeholder="Enter itinerary note"
+                        value={note}
+                        onChange={(e) =>
+                          handleChange(
+                            e,
+                            index,
+                            null,
+                            "itinerary",
+                            null,
+                            noteIndex
+                          )
+                        }
+                      />
+                    </Col>
+                    {item.notes.length > 1 && (
+                      <Col lg={2}>
+                        <Button
+                          variant="danger"
+                          onClick={() =>
+                            removeField(
+                              "itineraryNotes",
+                              index,
+                              null,
+                              noteIndex
+                            )
+                          }
+                        >
+                          <FaTrash />
+                        </Button>
+                      </Col>
+                    )}
+                  </Row>
+                ))}
+                <Button
+                  variant="secondary"
+                  onClick={() => addField("itineraryNotes", index)}
                   className="mb-2"
-                />
+                >
+                  Add Itinerary Note
+                </Button>
               </Col>
             </Row>
+
+            {formData.itinerary.length > 1 && (
+              <Button
+                variant="danger"
+                onClick={() => removeField("itinerary", index)}
+              >
+                <FaTrash /> Remove Itinerary
+              </Button>
+            )}
           </div>
         ))}
         <Button variant="secondary" onClick={() => addField("itinerary")}>
@@ -284,6 +429,39 @@ const AddProductScreen = () => {
         </Button>
       </Form.Group>
 
+      {/* Exclution */}
+      <Form.Group controlId="formInclusions">
+        <Form.Label>Exclusions</Form.Label>
+        {formData.exclusions.map((exclusion, index) => (
+          <div key={index} className="mb-2">
+            <Row>
+              <Col lg={10}>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter inclusion"
+                  value={exclusion}
+                  onChange={(e) => handleChange(e, index, null, "exclusions")}
+                />
+              </Col>
+              {formData.exclusions.length > 1 && (
+                <Col lg={2}>
+                  <Button
+                    variant="danger"
+                    onClick={() => removeField("exclusions", index)}
+                  >
+                    <FaTrash />
+                  </Button>
+                </Col>
+              )}
+            </Row>
+          </div>
+        ))}
+        <Button variant="secondary" onClick={() => addField("exclusions")}>
+          Add Exclution
+        </Button>
+      </Form.Group>
+
+      {/* Image */}
       <Form.Group controlId="formImage">
         <Form.Label>Image</Form.Label>
         <Form.Control
