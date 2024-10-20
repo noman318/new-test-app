@@ -44,6 +44,7 @@ import ThemeScreen from "./screens/ThemeScreen";
 import AboutUsScreen from "./screens/AboutUsScreen";
 import CareerWithUs from "./screens/CareerWithUs";
 import AddProductScreen from "./screens/admin/AddProductScreen";
+import PaymentPolicy from "./screens/admin/PaymentPolicy";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -57,6 +58,7 @@ const router = createBrowserRouter(
         element={<HomeScreen />}
       />
       <Route path="/package/add" element={<AddProductScreen />} />
+      <Route path="/payment" element={<PaymentPolicy />} />
       <Route path="/product/:id" element={<ProductScreen />} />
       <Route path="/order/:id" element={<OrderScreen />} />
       <Route path="/cart" element={<CartScreen />} />
