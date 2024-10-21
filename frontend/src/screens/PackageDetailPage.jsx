@@ -1,6 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import InclusionsExclusions from "../components/InclusionExclusion";
+import { ItineraryDisplay } from "../components/ItineraryAccordion";
 import { useGetPackageByIdQuery } from "../slices/packageApiSlice";
+import EnquiryForm from "../components/EnquiryForm";
 
 const PackageDetailPage = () => {
   const { id } = useParams();
@@ -46,15 +49,6 @@ const PackageDetailPage = () => {
               </div>
             </div>
           </div>
-          {/* <div className="col-md-3">
-            <div className="info-card">
-              <i className="bi bi-clock"></i>
-              <div>
-                <small>Start Time</small>
-                <h6>06:00 AM</h6>
-              </div>
-            </div>
-          </div> */}
           <div className="col-md-3">
             <div className="info-card">
               <i className="bi bi-pin-map"></i>
@@ -73,63 +67,16 @@ const PackageDetailPage = () => {
               <h3>Trek Overview</h3>
               <p>{"description"}</p>
             </div>
-
-            <div className="itinerary mb-4">
-              <h3>Itinerary</h3>
-              <div className="accordion" id="trekItinerary">
-                <div className="accordion-item">
-                  <h2 className="accordion-header">
-                    <button
-                      className="accordion-button"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#day1"
-                    >
-                      Day 1: Rishikesh to Lohajung (258 Kms, 8 Hrs Drive)
-                    </button>
-                  </h2>
-                  <div id="day1" className="accordion-collapse collapse show">
-                    <div className="accordion-body">
-                      <ul className="list-unstyled">
-                        <li>
-                          • The group will assemble at the pickup point at 06:00
-                          AM
-                        </li>
-                        <li>• Introduction and briefing session</li>
-                        <li>• Evening check-in and dinner</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                {/* Add more accordion items for other days */}
-              </div>
+            <div>
+              <ItineraryDisplay itinerary={data?.itinerary} />
+              <InclusionsExclusions
+                inclusions={data?.inclusions}
+                exclusions={data?.exclusions}
+              />
             </div>
           </div>
-
           <div className="col-md-4">
-            <div className="trek-sidebar">
-              <div className="included-section mb-4">
-                <h4>What's Included</h4>
-                <ul className="list-unstyled">
-                  <li>
-                    <i className="bi bi-check-circle text-success"></i>
-                    Accommodation: 2 Nights in Homestay & 3 Nights Camping
-                  </li>
-                  {/* Add more included items */}
-                </ul>
-              </div>
-
-              <div className="excluded-section">
-                <h4>What's Not Included</h4>
-                <ul className="list-unstyled">
-                  <li>
-                    <i className="bi bi-x-circle text-danger"></i>
-                    Personal expenses
-                  </li>
-                  {/* Add more excluded items */}
-                </ul>
-              </div>
-            </div>
+            <EnquiryForm dataPrice={data?.price} />
           </div>
         </div>
       </div>

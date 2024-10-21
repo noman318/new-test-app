@@ -187,7 +187,7 @@ export const TravelCardMap = ({ title, data }) => {
             marginBottom: "-0.7rem",
             marginLeft: "1rem",
           }}
-          className="mt-4rem display-4 fw-semibold"
+          className="mt-4rem display-4 fw-semibold text-black"
         >
           {title}
         </h4>

@@ -6,7 +6,7 @@ import { destinations } from "../screens/HomeScreen";
 const DestinationCard = ({ title }) => {
   return (
     <>
-      <h4 className="mt-4rem display-4 fw-semibold">{title}</h4>
+      <h4 className="mt-4rem display-4 fw-semibold text-black">{title}</h4>
       <Row>
         <Col
           className="pointer"

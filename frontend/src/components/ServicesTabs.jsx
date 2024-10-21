@@ -115,7 +115,7 @@ const ServicesTabs = () => {
       marginBottom: isMobile ? "1rem" : 0,
     },
     navLink: {
-      color: "#666",
+      color: "#050505",
       padding: isMobile ? "0.5rem" : "1rem",
       display: "block",
       cursor: "pointer",
@@ -134,6 +134,7 @@ const ServicesTabs = () => {
       fontSize: isMobile ? "1.8rem" : "2.5rem",
       marginBottom: isMobile ? "1rem" : "2rem",
       fontWeight: "bold",
+      color: "black",
     },
     itemsGrid: {
       display: "grid",
@@ -163,7 +164,7 @@ const ServicesTabs = () => {
       fontWeight: "bold",
     },
     description: {
-      color: "#666",
+      color: "#101010",
       lineHeight: "1.6",
       fontSize: isMobile ? "0.9rem" : "1rem",
     },

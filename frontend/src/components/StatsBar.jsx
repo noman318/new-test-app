@@ -17,7 +17,7 @@ const StatsBar = () => {
   return (
     <>
       {location.pathname === "/" && (
-        <Container fluid className="bg-dark text-white py-3">
+        <Container fluid className="bg-dark text-white py-2">
           <Row className="justify-content-center align-items-center">
             {stats.map((stat, index) => (
               <Col
@@ -25,9 +25,9 @@ const StatsBar = () => {
                 xs={12}
                 sm={6}
                 md={3}
-                className="text-center mb-3 mb-md-0"
+                className="text-center mb-2 mb-md-0"
               >
-                <stat.icon size={24} className="mb-2" />
+                <stat.icon size={24} className="mb-1" />
                 <h4 className="mb-0">{stat.value}</h4>
                 <p className="mb-0 small">{stat.label}</p>
               </Col>
