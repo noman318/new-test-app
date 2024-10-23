@@ -40,7 +40,7 @@ const EnquiryForm = ({ dataPrice }) => {
   return (
     <div className="enquiry-form-container">
       <Form onSubmit={handleSubmit}>
-        <Form.Group className="form-field">
+        <Form.Group className="form-field mt-2">
           <Form.Label>
             Name <span className="required">*</span>
           </Form.Label>
@@ -54,7 +54,7 @@ const EnquiryForm = ({ dataPrice }) => {
           />
         </Form.Group>
 
-        <Form.Group className="form-field">
+        <Form.Group className="form-field mt-2">
           <Form.Label>
             Email <span className="required">*</span>
           </Form.Label>
@@ -68,7 +68,7 @@ const EnquiryForm = ({ dataPrice }) => {
           />
         </Form.Group>
 
-        <Form.Group className="form-field">
+        <Form.Group className="form-field mt-2">
           <Form.Label>
             Phone No. <span className="required">*</span>
           </Form.Label>
@@ -82,7 +82,7 @@ const EnquiryForm = ({ dataPrice }) => {
           />
         </Form.Group>
 
-        <Form.Group className="form-field">
+        <Form.Group className="form-field mt-4">
           <Form.Label>Number of People</Form.Label>
           <div className="slider-container">
             <Form.Range
@@ -90,10 +90,10 @@ const EnquiryForm = ({ dataPrice }) => {
               value={formData.people}
               onChange={handleInputChange}
               min="1"
-              max="10"
+              max="20"
               className="custom-range"
             />
-            <div className="price-info">
+            <div className="price-info my-4">
               <span className="selected-value">
                 Selected: {formData.people}{" "}
                 {formData.people === 1 ? "person " : "people "}
@@ -127,13 +127,14 @@ const EnquiryForm = ({ dataPrice }) => {
             className="custom-textarea"
           />
         </Form.Group>
-
-        <Button className="text-white mx-2" variant="success">
-          Enquiry
-        </Button>
-        <Button className="text-white" variant="warning">
-          Book Now
-        </Button>
+        <div className="mt-3">
+          <Button className="text-white mx-2" variant="success">
+            Enquiry
+          </Button>
+          <Button className="text-white" variant="warning">
+            Book Now
+          </Button>
+        </div>
       </Form>
     </div>
   );
