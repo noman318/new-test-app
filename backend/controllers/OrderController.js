@@ -92,49 +92,22 @@ const updateOrderToDelivered = async (req, res, next) => {
 };
 
 const addOrderItems = async (req, res, next) => {
-  const { orderItems, shippingAddress, paymentMethod } = req.body;
+  const { name, email, package_id, people_qty, phone, price, month, query } =
+    req.body;
   try {
-    if (orderItems && orderItems.length === 0) {
-      throw new Error("No order Items");
-    } else {
-      const itemsFromDB = await Trip.find({
-        _id: { $in: orderItems.map((x) => x._id) },
-      });
-
-      // map over the order items and use the price from our items from database
-      const dbOrderItems = orderItems.map((itemFromClient) => {
-        const matchingItemFromDB = itemsFromDB.find(
-          (itemFromDB) => itemFromDB._id.toString() === itemFromClient._id
-        );
-        return {
-          ...itemFromClient,
-          product: itemFromClient._id,
-          price: matchingItemFromDB.price,
-          _id: undefined,
-        };
-      });
-
-      // calculate prices
-      const { itemsPrice, taxPrice, shippingPrice, totalPrice } =
-        calcPrices(dbOrderItems);
-
-      const order = new Order({
-        orderItems: orderItems?.map((item) => ({
-          ...item,
-          product: item._id,
-          _id: undefined,
-        })),
-        user: req.user._id,
-        shippingAddress,
-        paymentMethod,
-        itemsPrice,
-        taxPrice,
-        shippingPrice,
-        totalPrice,
-      });
-      const createdOrder = await order.save();
-      res.status(201).json(createdOrder);
-    }
+    const order = new Order({
+      user: req.user._id,
+      name,
+      email,
+      package_id,
+      people_qty,
+      phone,
+      price,
+      month,
+      query,
+    });
+    const createdOrder = await order.save();
+    res.status(201).json(createdOrder);
   } catch (error) {
     next(error);
 

@@ -170,7 +170,6 @@ const createPackageItems = async (req, res, next) => {
       inclusions,
       exclusions,
     } = req.body;
-    console.log("req.body", req.body);
     const images = req.file ? req.file.path : [];
     const packageData = {
       price,
@@ -186,7 +185,6 @@ const createPackageItems = async (req, res, next) => {
       inclusions,
       exclusions,
     };
-    console.log("packageData", packageData);
     const createdDestination = await Package.create(packageData);
     return res.status(201).json(createdDestination);
   } catch (error) {
