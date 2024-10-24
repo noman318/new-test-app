@@ -21,11 +21,15 @@ const getUserOrders = async (req, res, next) => {
 const getOrderById = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const order = await Order.findById(id).populate({
-      path: "user",
-      model: User,
-      select: "name email",
-    });
+    const order = await Order.findById(id)
+      .populate({
+        path: "user",
+        model: User,
+        select: "name email",
+      })
+      .populate({
+        path: "package_id",
+      });
     if (order) {
       res.status(200).json(order);
     } else {

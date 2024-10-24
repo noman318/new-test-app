@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { useCreateOrderMutation } from "../slices/orderApiSlice";
+import { toast } from "react-toastify";
 
-const EnquiryForm = ({ dataPrice }) => {
+const EnquiryForm = ({ dataPrice, package_id }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "+91-",
-    people: 1,
+    people_qty: 1,
     travelDate: "",
     query: "",
   });
   const [price, setPrice] = useState(dataPrice);
+  const [createOrder, { isLoading }] = useCreateOrderMutation();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,15 +22,31 @@ const EnquiryForm = ({ dataPrice }) => {
       [name]: value,
     }));
   };
-  //   console.log("formData", formData);
-  useEffect(() => {
-    const totalPrice = dataPrice * formData.people;
-    setPrice(totalPrice);
-  }, [dataPrice, formData.people]);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    const totalPrice = dataPrice * formData.people_qty;
+    setPrice(totalPrice);
+  }, [dataPrice, formData.people_qty]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+    try {
+      let res = await createOrder({ ...formData, package_id });
+      console.log("res", res);
+      toast.success("Order Placed");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "+91-",
+        people_qty: 1,
+        travelDate: "",
+        query: "",
+      });
+      //  navigate(`/order/${res?.data?._id}`);
+    } catch (error) {
+      toast.error(error?.msg);
+    }
   };
 
   const formatPrice = (value) => {
@@ -75,6 +94,7 @@ const EnquiryForm = ({ dataPrice }) => {
           <Form.Control
             type="text"
             name="phone"
+            maxLength={13}
             value={formData.phone}
             onChange={handleInputChange}
             required
@@ -86,8 +106,8 @@ const EnquiryForm = ({ dataPrice }) => {
           <Form.Label>Number of People</Form.Label>
           <div className="slider-container">
             <Form.Range
-              name="people"
-              value={formData.people}
+              name="people_qty"
+              value={formData.people_qty}
               onChange={handleInputChange}
               min="1"
               max="20"
@@ -95,8 +115,8 @@ const EnquiryForm = ({ dataPrice }) => {
             />
             <div className="price-info my-4">
               <span className="selected-value">
-                Selected: {formData.people}{" "}
-                {formData.people === 1 ? "person " : "people "}
+                Selected: {formData.people_qty}{" "}
+                {formData.people_qty === 1 ? "person " : "people "}
               </span>
               <b className="price-value text-black">
                 Total Price: {formatPrice(price)}
@@ -131,7 +151,12 @@ const EnquiryForm = ({ dataPrice }) => {
           <Button className="text-white mx-2" variant="success">
             Enquiry
           </Button>
-          <Button className="text-white" variant="warning">
+          <Button
+            className="text-white"
+            variant="warning"
+            type="submit"
+            disabled={isLoading}
+          >
             Book Now
           </Button>
         </div>

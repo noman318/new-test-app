@@ -78,7 +78,7 @@ const PackageDetailPage = () => {
             </div>
           </div>
           <div className="col-md-4">
-            <EnquiryForm dataPrice={data?.price} />
+            <EnquiryForm dataPrice={data?.price} package_id={id} />
           </div>
         </div>
       </div>
