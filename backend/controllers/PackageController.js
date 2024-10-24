@@ -150,8 +150,7 @@ const createDetailPackageItems = async (req, res, next) => {
 
 const createPackageItems = async (req, res, next) => {
     try {
-        const { price, title, category, description,pickUp_drop,duration,inclusions,itinerary,inclusionDetail,exclusionDetail } = req.body;
-        console.log('req.body :>> ', req.body);
+        const { price, title, category, description,pickUp_drop,duration,inclusions,itinerary,inclusionDetail,exclusionDetail,details } = req.body;
         const images = req.file ? req.file.path : [];
         const packageData = {
             price,
@@ -165,7 +164,8 @@ const createPackageItems = async (req, res, next) => {
             inclusions,
             itinerary,
             inclusionDetail,
-            exclusionDetail
+            exclusionDetail,
+            details
         };
         const createdDestination = await Package.create(packageData);
         return res.status(201).json(createdDestination);

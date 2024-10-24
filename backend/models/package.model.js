@@ -4,7 +4,7 @@ const detailsSchema = mongoose.Schema(
       detail_price: { type: String, required: true },
       detail_title: { type: String, required: true },
       detail_description: { type: String, required: true },
-      images:{ type:String}
+      images:{ type:[String]}
     }
   );
   const itenarySchema = mongoose.Schema(
